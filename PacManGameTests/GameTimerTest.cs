@@ -33,33 +33,14 @@ namespace PacManGameTests
         {
             //Arrange
             ITickable boardMock = Mock.Of<ITickable>();
-            FakeTimer timer = new FakeTimer();
-            GameController gameController = new GameController(boardMock, timer);
+            ITimer timerMock = Mock.Of<ITimer>();
+            GameController gameController = new GameController(boardMock, timerMock);
 
             //Act
-            timer.OnElapsed();
+            Mock.Get(timerMock).Raise(t => t.Elapsed += null, new EventArgs());
 
             //Assert
             Mock.Get(boardMock).Verify(b => b.Tick(), Times.Once);
-        }
-    }
-
-
-
-    public class FakeTimer : ITimer
-    {
-        public event EventHandler Elapsed;
-        public void Start()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnElapsed()
-        {
-            if (Elapsed != null)
-            {
-                Elapsed(this, new EventArgs());
-            }
         }
     }
 }
