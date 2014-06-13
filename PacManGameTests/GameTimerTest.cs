@@ -16,6 +16,9 @@ namespace PacManGameTests
         {
             //Arrange
             Board b = new Board(3, 4);
+            ITimer gameTimer = new GameTimer(500);
+            GameController gameController = new GameController(b, gameTimer);
+            gameTimer.Start();
 
             //Act
             Thread.Sleep(TimeSpan.FromMilliseconds(600));
@@ -39,13 +42,17 @@ namespace PacManGameTests
             //Assert
             Mock.Get(boardMock).Verify(b => b.Tick(), Times.Once);
         }
-
     }
+
 
 
     public class FakeTimer : ITimer
     {
         public event EventHandler Elapsed;
+        public void Start()
+        {
+            throw new NotImplementedException();
+        }
 
         public void OnElapsed()
         {
