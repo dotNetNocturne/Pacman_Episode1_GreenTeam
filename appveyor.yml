@@ -1,0 +1,11 @@
+#
+# see reference http://www.appveyor.com/docs/appveyor-yml
+#
+
+configuration: Release
+
+before_build:
+  - nuget restore
+
+build:
+  verbosity: minimal
